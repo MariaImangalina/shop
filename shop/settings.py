@@ -16,6 +16,7 @@ from .secrets import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates/')
+MEDIA_DIR = os.path.join(BASE_DIR, 'media/')
 
 
 
@@ -128,3 +129,6 @@ STATICFILES_DIR = [os.path.join(BASE_DIR, 'static/'), ]
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = MEDIA_DIR

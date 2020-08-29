@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.views import generic
+from .models import Good
 
-# Create your views here.
+class GoodsList(generic.ListView):
+    model = Good
+
+class GoodDetail(generic.DetailView):
+    model = Good
