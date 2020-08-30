@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class='container'>
     <div class='row'>
-        {% for item in good_list %}
+        {% for good in good_list %}
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ item.pic.url }}" alt="Card image cap">
+            <a href="{% url 'goods:detail' pk=good.pk %}">
+                <img class="card-img-top" src="{{ good.pic.url }}" alt="Card image cap">
+            </a>
             <div class="card-body">
-              <h5 class="card-title">{{ item.title }}</h5>
+              <h5 class="card-title">{{ good.title }}</h5>
               <a href="#" class="btn btn-primary">Buy</a>
             </div>
         </div>

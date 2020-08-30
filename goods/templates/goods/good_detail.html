@@ -1,22 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class='container'>
-    <div class='row'>
-        <div class='card'>
             <h3>{{ good.title }}</h3>
             <div class='col-md=4'>
                 <img src="{{ good.pic.url }}" alt="Card image cap">
             </div>
             <div class='col-md-8'>
                 <p></p>
-
             </div>
-
-        </div>
-
-    </div>
-
+            {% if user.is_staff %}
+            <a class='btn btn-outline-primary' href="{% url 'goods:update' pk=good.pk %}">Update</a>
+            {% endif %}
+            <a href="#" class="btn btn-primary">Buy</a>
 </div>
 
 {% endblock %}

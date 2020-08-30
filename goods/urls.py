@@ -6,4 +6,6 @@ app_name = 'goods'
 urlpatterns = [
     path('all/', views.GoodsList.as_view(), name='all'),
     path('item/<int:pk>/', views.GoodDetail.as_view(), name='detail'),
+    path('add/', views.CreateGood.as_view(), name='add'),
+    path('update/<int:pk>/', views.GoodUpdate.as_view(), name='update'),
 ]
