@@ -5,10 +5,10 @@
 <div class='container'>
             <h3>{{ good.title }}</h3>
             <div class='col-md=4'>
-                <img src="{{ good.pic.url }}" alt="Card image cap">
+                <img height=450px width=450px src="{{ good.pic.url }}" alt="Card image cap">
             </div>
             <div class='col-md-8'>
-                <p></p>
+                <p>{{ good.description }}</p>
             </div>
             {% if user.is_staff %}
             <a class='btn btn-outline-primary' href="{% url 'goods:update' pk=good.pk %}">Update</a>
