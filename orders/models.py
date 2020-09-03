@@ -34,5 +34,5 @@ class Order(models.Model):
     def get_total(self):
         total = 0
         for good in self.goods.all():
-            total += good.get_amount
+            total += good.get_amount()
         return total
