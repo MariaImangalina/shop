@@ -9,7 +9,7 @@ class OrderGood(models.Model):
     good = models.ForeignKey(Good, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     quantity = models.IntegerField(default=1)
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='order_good', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.good.title
@@ -19,7 +19,7 @@ class OrderGood(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='order', on_delete=models.CASCADE)
     goods = models.ManyToManyField(OrderGood)
     created_at = models.DateTimeField(auto_now=True)
     ordered = models.BooleanField(default=False)

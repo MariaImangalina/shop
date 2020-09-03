@@ -11,7 +11,7 @@
             </a>
             <div class="card-body">
               <h5 class="card-title">{{ good.title }}</h5>
-              <a href="#" class="btn btn-primary">Buy</a>
+              <a href="{% url 'orders:add_to_cart' pk=good.pk %}" class="btn btn-primary">Buy</a>
             </div>
         </div>
         {% endfor %}

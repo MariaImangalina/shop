@@ -4,9 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OrderGood, Order
 from goods.models import Good
 from django.contrib.auth import get_user_model
-from django.http import request
+from django.http import request, response
 from django.utils import timezone
 from django.views import generic
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
+
 
 User = get_user_model()
 
@@ -19,22 +22,26 @@ def add_to_cart(request, pk):
     if not_saved_order.exists():
         order = not_saved_order[0] #первый элемент потому, что возвращает список
         order.goods.add(order_good)
-        #return redirect('core:order-summary')
+        messages.info(request, "Good was added to your cart")
+        return redirect('/')
 
     else:
         order = Order.objects.create(user=request.user)
         order.goods.add(order_good)
-        #return redirect('core:order-summary')
+        messages.info(request, "Good was added to your cart")
+        return redirect('/')
 
 
 class OrderSummary(LoginRequiredMixin, generic.View):
-    def get(self, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=request.user, ordered=False)
-            context = {'object':order}
-            return render(self.request, 'orders:summary', context)
-        except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
-            return redirect("/") #РАЗОБРАТЬСЯ
+    def get(self, request, *args, **kwargs):
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            return render(request, 'orders/summary.html', {'object':order})
+       
+       
+       
+       
+       #except ObjectDoesNotExist:
+            #messages.warning(request, "No active order here")
+            #return redirect("/") #РАЗОБРАТЬСЯ """ """
 
 
