@@ -25,7 +25,7 @@
         <td>{{ order_good.quantity }}</td>
         <td>{{ order_good.get_amount }}</td>
         <td><a class='btn btn-secondary' role='button' href="#">Change qty</a></td>
-        <td><a class='btn btn-secondary' role='button' href="#">Remove</a></td>
+        <td><a class='btn btn-secondary' role='button' href="{% url 'orders:remove_from_cart' pk=order_good.pk %}">Remove</a></td>
 
     </tr>
     {% endfor %}

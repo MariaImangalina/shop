@@ -23,19 +23,42 @@ def add_to_cart(request, pk):
         order = not_saved_order[0] #первый элемент потому, что возвращает список
         order.goods.add(order_good)
         messages.info(request, "Good was added to your cart")
-        return redirect('/')
+        return redirect('goods:all')
 
     else:
         order = Order.objects.create(user=request.user)
         order.goods.add(order_good)
         messages.info(request, "Good was added to your cart")
-        return redirect('/')
+        return redirect('goods:all')
+
+
+@login_required
+def remove_from_cart(request, pk):
+    not_saved_order = Order.objects.filter(user=request.user, ordered=False)
+    good_to_remove = get_object_or_404(Good, pk=pk)
+
+
+    if not_saved_order.exists():
+        order = not_saved_order[0]
+
+        if order.goods.filter(good__pk=good_to_remove.pk).exists():
+            order_good = OrderGood.objects.filter(good=good_to_remove, user=request.user)[0]
+            order.goods.remove(order_good)
+            return redirect('orders:summary')
+        else:
+            messages.info(request, "Good was not in your cart")
+            return redirect('orders:summary')
+    else:
+        messages.info(request, "You don't have an active order")
+        return redirect('goods:all')
+
+
 
 
 class OrderSummary(LoginRequiredMixin, generic.View):
     def get(self, request, *args, **kwargs):
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            return render(request, 'orders/summary.html', {'object':order})
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        return render(request, 'orders/summary.html', {'object':order})
        
        
        
