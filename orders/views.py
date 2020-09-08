@@ -70,7 +70,27 @@ def plus_qty(request, pk):
             return redirect('orders:summary')
 
 
+@login_required
+def minus_qty(request, pk):
+    not_saved_order = Order.objects.filter(user=request.user, ordered=False)
+    good_to_change = get_object_or_404(Good, pk=pk)
 
+    if not_saved_order.exists():
+        order = not_saved_order[0]
+
+        if order.goods.filter(good__pk=good_to_change.pk).exists():
+            order_good = OrderGood.objects.filter(good=good_to_change, user=request.user)[0]
+            if order_good.quantity > 1:
+                order_good.quantity -= 1
+                order_good.save()
+
+            else:
+                order.goods.remove(order_good)
+
+            return redirect('orders:summary')
+        else:
+            messages.info(request, "Good was not in your cart")
+            return redirect('orders:summary')
 
 
 
