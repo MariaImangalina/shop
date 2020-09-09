@@ -3,6 +3,16 @@
 
 {% block content %}
 <div class='container'>
+    <div>
+        {% if messages %}
+        <ul class=" alert alert-success messages" role='alert'>
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <div class='row'>
         {% for good in good_list %}
         <div class="card" style="width: 18rem;">
@@ -16,6 +26,7 @@
         </div>
         {% endfor %}
     </div>
+    
 </div>
 
 {% endblock %}

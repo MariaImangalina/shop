@@ -11,10 +11,10 @@
             <th scope='col'>#</th>
             <th scope='col'>Good Title</th> 
             <th scope='col'>Price, RUR</th> 
+            <th scope='col'></th>
             <th scope='col'>Quantity</th> 
+            <th scope='col'></th>
             <th scope='col'>Amount, RUR</th>
-            <th scope='col'></th>
-            <th scope='col'></th>
             <th scope='col'></th>
         </tr>
     </thead>
@@ -23,10 +23,10 @@
         <th scope='row'>{{ forloop.counter }}</td>
         <td>{{ order_good.good.title }}</td>
         <td>{{ order_good.good.price }}</td>
+        <td><a class='btn btn-success' role='button' href="{% url 'orders:minus_qty' pk=order_good.good.pk %}">-</a></td>
         <td>{{ order_good.quantity }}</td>
+        <td><a class='btn btn-success' role='button' href="{% url 'orders:plus_qty' pk=order_good.good.pk %}">+</a></td>
         <td>{{ order_good.get_amount }}</td>
-        <td><a class='btn btn-secondary' role='button' href="{% url 'orders:minus_qty' pk=order_good.good.pk %}">Minus qty</a></td>
-        <td><a class='btn btn-secondary' role='button' href="{% url 'orders:plus_qty' pk=order_good.good.pk %}">Plus qty</a></td>
         <td><a class='btn btn-secondary' role='button' href="{% url 'orders:remove_from_cart' pk=order_good.good.pk %}">Remove</a></td>
 
     </tr>

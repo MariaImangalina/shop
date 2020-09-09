@@ -22,13 +22,13 @@ def add_to_cart(request, pk):
     if not_saved_order.exists():
         order = not_saved_order[0] #первый элемент потому, что возвращает список
         order.goods.add(order_good)
-        messages.info(request, "Good was added to your cart")
+        messages.success(request, "Good was added to your cart")
         return redirect('goods:all')
 
     else:
         order = Order.objects.create(user=request.user)
         order.goods.add(order_good)
-        messages.info(request, "Good was added to your cart")
+        messages.success(request, "Good was added to your cart")
         return redirect('goods:all')
 
 
