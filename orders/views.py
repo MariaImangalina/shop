@@ -21,9 +21,16 @@ def add_to_cart(request, pk):
     not_saved_order= Order.objects.filter(user=request.user, ordered=False)
     if not_saved_order.exists():
         order = not_saved_order[0] #первый элемент потому, что возвращает список
-        order.goods.add(order_good)
-        messages.success(request, "Good was added to your cart")
-        return redirect('goods:all')
+        if order.goods.filter(good__pk=order_good.pk).exists():
+            good_in_order = OrderGood.objects.filter(good=order_good.good, user=request.user)[0]
+            good_in_order.quantity += 1
+            good_in_order.save()
+            return redirect('goods:all')
+
+        else:          
+            order.goods.add(order_good)
+            messages.success(request, "Good was added to your cart")
+            return redirect('goods:all')
 
     else:
         order = Order.objects.create(user=request.user)
