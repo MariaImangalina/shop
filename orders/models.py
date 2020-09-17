@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from goods.models import Good
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -21,9 +22,18 @@ class OrderGood(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='order', on_delete=models.CASCADE)
     goods = models.ManyToManyField(OrderGood)
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(blank=True)
     ordered = models.BooleanField(default=False)
     address = models.CharField(max_length=250, blank=True, null=True)
+    phone = models.CharField(max_length=12, blank=True, help_text='Please insert phone number using following format: +79...')
+    email = models.EmailField(blank=True)
+
+    def place_order(self):
+        self.ordered = True
+        self.created_at = timezone.now()
+        self.save()
+
+
 
     def __str__(self):
         return self.user.username

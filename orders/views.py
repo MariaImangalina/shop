@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import OrderGood, Order
+from .forms import CheckoutForm
 from goods.models import Good
 from django.contrib.auth import get_user_model
 from django.http import request, response, HttpResponse
@@ -111,3 +112,11 @@ class OrderSummary(LoginRequiredMixin, generic.View):
             #сделать нормальную страницу
 
 
+class Checkout(LoginRequiredMixin, generic.View):
+    def get(self, request, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            form = CheckoutForm()
+            return render(request, 'orders/checkout.html', {'object':order, 'form':form})
+        except ObjectDoesNotExist:
+            return HttpResponse('Вы пока ничего не выбрали')
