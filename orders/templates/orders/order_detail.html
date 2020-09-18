@@ -1,0 +1,57 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class='container'>
+    <div class='jumbotron'>
+        <h2>Order №{{ order.id }} detail</h2>
+    </div>
+<table class='table thead-light table-hover'>
+    <thead class='thead-light'>
+        <tr>
+            <th scope='col'>#</th>
+            <th scope='col'>Good Title</th> 
+            <th scope='col'>Price, RUR</th> 
+            <th scope='col'></th>
+            <th scope='col'>Quantity</th> 
+            <th scope='col'></th>
+            <th scope='col'>Amount, RUR</th>
+            <th scope='col'></th>
+        </tr>
+    </thead>
+    {% for order_good in order.goods.all %}
+    <tr>
+        <th scope='row'>{{ forloop.counter }}</td>
+        <td>{{ order_good.good.title }}</td>
+        <td>{{ order_good.good.price }}</td>
+        <td><a class='btn btn-success' role='button' href="{% url 'orders:minus_qty' pk=order_good.good.pk %}">-</a></td>
+        <td>{{ order_good.quantity }}</td>
+        <td><a class='btn btn-success' role='button' href="{% url 'orders:plus_qty' pk=order_good.good.pk %}">+</a></td>
+        <td>{{ order_good.get_amount }}</td>
+        <td><a class='btn btn-secondary' role='button' href="{% url 'orders:remove_from_cart' pk=order_good.good.pk %}">Remove</a></td>
+
+    </tr>
+    {% endfor %}
+</table>
+<div class='jumbotron'>
+    <h2>Delivery info</h2>
+    <ul>
+        <li>{{ order.address }}</li>
+        <li>{{ order.phone }}</li>
+        <li>{{ order.email }}</li>
+    </ul>
+
+
+
+</div>
+
+
+
+<h4>Total: {{ order.get_total }} RUR</h4>
+
+</div>
+
+
+
+
+
+{% endblock %}

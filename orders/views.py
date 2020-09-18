@@ -111,12 +111,22 @@ class OrderSummary(LoginRequiredMixin, generic.View):
             return HttpResponse('Вы пока ничего не выбрали')
             #сделать нормальную страницу
 
+@login_required
+def checkout(request):
+    order = Order.objects.get(user=request.user, ordered=False)
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            order.address = form.cleaned_data['address']
+            order.phone = form.cleaned_data['phone']
+            order.email = form.cleaned_data['email']
+            order.place_order()
+            order.save()
+            return redirect('orders:order_detail', pk=order.pk)
+    else:
+        form = CheckoutForm()
+    return render(request, 'orders/checkout.html', {'object':order, 'form':form})
 
-class Checkout(LoginRequiredMixin, generic.View):
-    def get(self, request, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            form = CheckoutForm()
-            return render(request, 'orders/checkout.html', {'object':order, 'form':form})
-        except ObjectDoesNotExist:
-            return HttpResponse('Вы пока ничего не выбрали')
+
+class OrderDetail(LoginRequiredMixin, generic.DetailView):
+    model = Order

@@ -25,12 +25,12 @@ class Order(models.Model):
     created_at = models.DateTimeField(blank=True)
     ordered = models.BooleanField(default=False)
     address = models.CharField(max_length=250, blank=True, null=True)
-    phone = models.CharField(max_length=12, blank=True, help_text='Please insert phone number using following format: +79...')
+    phone = models.CharField(max_length=16, blank=True, help_text='Please insert phone number using following format: +79...')
     email = models.EmailField(blank=True)
 
     def place_order(self):
-        self.ordered = True
         self.created_at = timezone.now()
+        self.ordered = True
         self.save()
 
 
