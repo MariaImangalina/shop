@@ -22,7 +22,7 @@ class OrderGood(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='order', on_delete=models.CASCADE)
     goods = models.ManyToManyField(OrderGood)
-    created_at = models.DateTimeField(blank=True)
+    created_at = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
     address = models.CharField(max_length=250, blank=True, null=True)
     phone = models.CharField(max_length=16, blank=True, help_text='Please insert phone number using following format: +79...')

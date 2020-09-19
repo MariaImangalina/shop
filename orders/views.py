@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from django.core.mail import send_mail
 
 
 User = get_user_model()
@@ -122,6 +123,15 @@ def checkout(request):
             order.email = form.cleaned_data['email']
             order.place_order()
             order.save()
+            
+            send_mail(
+                'Order ' + str(order.id) +' is placed',
+                'Yeap, it is',
+                '',
+                [order.email, ], 
+                fail_silently=False
+            )
+
             return redirect('orders:order_detail', pk=order.pk)
     else:
         form = CheckoutForm()
@@ -130,3 +140,4 @@ def checkout(request):
 
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
+
