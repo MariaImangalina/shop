@@ -141,3 +141,12 @@ def checkout(request):
 class OrderDetail(LoginRequiredMixin, generic.DetailView):
     model = Order
 
+
+class OrderList(LoginRequiredMixin, generic.ListView):
+    login_url = '/login/'
+    model = Order
+    redirect_field_name = 'order_list.html'
+
+    def get_queryset(self):
+        self.user = self.request.user
+        return Order.objects.filter(created_at__isnull=False, user=self.user).order_by('-created_at')

@@ -6,6 +6,7 @@
     <div class='row'>
         <div class='col-lg-6'>
             <h2>Order №{{ object.id }} detail</h2>
+            <br>
             <table class='table thead-light table-hover'>
                 <thead class='thead-light'>
                     <tr>
@@ -27,8 +28,9 @@
                 </tr>
                 {% endfor %}
             </table>
-            
+            <br>
             <h4>Total: {{ object.get_total }} RUR</h4>
+            <br>
             
         </div>
 
@@ -37,16 +39,18 @@
             <h2>Please fill the delivery form</h2>
 
             <form method='POST'>
-                {% csrf_token %}
-                {{ form.as_p }}
-            <input class='btn btn-primary' type="submit" value="Place">
+                <div class='form-group'>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class='btn btn-primary' type="submit" value="Place">
+                </div>
             </form>
 
             
         </div>
         
 </div>
-<a class = 'btn btn-secondary' role='button' href="#">Back to catalog</a>
+<a class = 'btn btn-secondary' role='button' href="{% url 'goods:all' %}">Back to catalog</a>
 </div>
 </div>
 

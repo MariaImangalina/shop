@@ -11,4 +11,5 @@ urlpatterns = [
     path('minus_qty/<int:pk>', views.minus_qty, name='minus_qty'),
     path('checkout/', views.checkout, name='checkout'),
     path('order/<int:pk>', views.OrderDetail.as_view(), name='order_detail'),
+    path('all/', views.OrderList.as_view(), name='all'),
 ]
