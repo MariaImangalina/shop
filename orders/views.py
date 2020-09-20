@@ -117,7 +117,7 @@ class OrderSummary(LoginRequiredMixin, generic.View):
 def checkout(request):
     order = Order.objects.get(user=request.user, ordered=False)
     if request.method == 'POST':
-        form = CheckoutForm(request.POST)
+        form = CheckoutForm(request.POST, initial={"email": order.user.email})
         if form.is_valid():
             order.address = form.cleaned_data['address']
             order.phone = form.cleaned_data['phone']
