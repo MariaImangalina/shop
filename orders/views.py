@@ -27,6 +27,7 @@ def add_to_cart(request, pk):
             good_in_order = OrderGood.objects.filter(good=order_good.good, user=request.user)[0]
             good_in_order.quantity += 1
             good_in_order.save()
+            messages.success(request, "Good was added to your cart")
             return redirect('goods:all')
 
         else:          

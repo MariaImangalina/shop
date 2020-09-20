@@ -2,20 +2,10 @@
 {% load static %}
 
 {% block content %}
-<div class='container'>
-    <div>
-        {% if messages %}
-        <ul class=" alert alert-success messages" role='alert'>
-        {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
 
     <div class='row'>
         {% for good in good_list %}
-        <div class="card" style="width: 18rem;">
+        <div class="card col-lg-3 mx-2 my-2" style="width: 18rem;">
             <a href="{% url 'goods:detail' pk=good.pk %}">
                 <img class="card-img-top" height=170px width=50px src="{{ good.pic.url }}" alt="Card image cap">
             </a>
@@ -27,6 +17,5 @@
         {% endfor %}
     </div>
     
-</div>
 
 {% endblock %}
