@@ -3,7 +3,6 @@ from django.urls import reverse
 
 class Good(models.Model):
     title = models.CharField(max_length=255)
-    weight = models.FloatField(verbose_name='Weight in kg')
     description = models.TextField()
     price = models.FloatField(verbose_name='Price in RUR')
     pic = models.ImageField(upload_to='goods/', blank=True)

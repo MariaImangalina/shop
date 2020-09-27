@@ -18,15 +18,30 @@ class OrderGood(models.Model):
     def get_amount(self):
         return self.quantity * self.good.price
 
+DELIVERY_TYPE = [
+    ('C', 'Courier'),
+    ('P', 'Pickup')
+]
+
+PICKUPS = [
+    (1, 'MSU'),
+    (2, 'Cosmos_Hotel'),
+    (3, 'Gorod_Mall')
+]
+
 
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='order', on_delete=models.CASCADE)
     goods = models.ManyToManyField(OrderGood)
     created_at = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
+    delivery_options = models.CharField(max_length=50, choices=DELIVERY_TYPE, blank=True, null=True)
     address = models.CharField(max_length=250, blank=True, null=True)
-    phone = models.CharField(max_length=16, blank=True, help_text='Please insert phone number using following format: +79...')
+    pickup_point = models.IntegerField(choices=PICKUPS, blank=True, null=True)
+    phone = models.CharField(max_length=16, blank=True)
     email = models.EmailField(blank=True)
+
+    
 
     def place_order(self):
         self.created_at = timezone.now()
@@ -36,7 +51,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return self.user.username + ' ' + str(self.created_at)
 
     def get_absolute_url(self):
         return reverse('orders:detail', kwargs={'pk':self.pk})

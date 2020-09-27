@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'accounts',
     'goods',
     'orders',
@@ -73,6 +74,11 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CRISPY_FAIL_SILENTLY = not DEBUG
+
 
 WSGI_APPLICATION = 'shop.wsgi.application'
 

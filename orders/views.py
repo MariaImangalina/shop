@@ -116,12 +116,18 @@ class OrderSummary(LoginRequiredMixin, generic.View):
 @login_required
 def checkout(request):
     order = Order.objects.get(user=request.user, ordered=False)
+    user = request.user
     if request.method == 'POST':
-        form = CheckoutForm(request.POST, initial={"email": order.user.email})
+        form = CheckoutForm(request.POST, user=request.user)
         if form.is_valid():
-            order.address = form.cleaned_data['address']
             order.phone = form.cleaned_data['phone']
             order.email = form.cleaned_data['email']
+            order.delivery_options = form.cleaned_data['delivery_options']
+            if order.delivery_options == 'Courier':
+                order.address = form.cleaned_data['address']
+            else:
+                order.pickup_point = form.cleaned_data['pickup_point']
+            
             order.place_order()
             order.save()
             
@@ -136,7 +142,7 @@ def checkout(request):
             return redirect('orders:order_detail', pk=order.pk)
     else:
         form = CheckoutForm()
-    return render(request, 'orders/checkout.html', {'object':order, 'form':form})
+    return render(request, 'orders/checkout.html', {'object':order, 'form':form, 'user':user})
 
 
 class OrderDetail(LoginRequiredMixin, generic.DetailView):

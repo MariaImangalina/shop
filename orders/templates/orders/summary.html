@@ -31,9 +31,13 @@
 
     </tr>
     {% endfor %}
+    <tfoot>
+        <tr>
+            <td colspan=8><h4>Total: {{ object.get_total }} RUR</h4></td>
+        </tr>
+    </tfoot>
 </table>
 
-<h4>Total: {{ object.get_total }} RUR</h4>
 
 <a class='btn btn-info' role='button' href="{% url 'orders:checkout' %}">CheckOut</a>
 
