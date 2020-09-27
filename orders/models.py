@@ -19,14 +19,14 @@ class OrderGood(models.Model):
         return self.quantity * self.good.price
 
 DELIVERY_TYPE = [
-    ('C', 'Courier'),
-    ('P', 'Pickup')
+    ('Courier', 'Courier'),
+    ('Pickup', 'Pickup')
 ]
 
 PICKUPS = [
-    (1, 'MSU'),
-    (2, 'Cosmos_Hotel'),
-    (3, 'Gorod_Mall')
+    ('MSU', 'MSU'),
+    ('Cosmos_Hotel', 'Cosmos_Hotel'),
+    ('Gorod_Mall', 'Gorod_Mall')
 ]
 
 
@@ -35,9 +35,9 @@ class Order(models.Model):
     goods = models.ManyToManyField(OrderGood)
     created_at = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
-    delivery_options = models.CharField(max_length=50, choices=DELIVERY_TYPE, blank=True, null=True)
+    delivery_options = models.CharField(max_length=150, choices=DELIVERY_TYPE, blank=True, null=True)
     address = models.CharField(max_length=250, blank=True, null=True)
-    pickup_point = models.IntegerField(choices=PICKUPS, blank=True, null=True)
+    pickup_point = models.CharField(max_length=150, choices=PICKUPS, blank=True, null=True)
     phone = models.CharField(max_length=16, blank=True)
     email = models.EmailField(blank=True)
 

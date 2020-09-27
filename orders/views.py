@@ -20,6 +20,7 @@ def add_to_cart(request, pk):
     good = get_object_or_404(Good, pk=pk)
     order_good, created = OrderGood.objects.get_or_create(good=good, user=request.user, ordered=False)
 
+
     not_saved_order= Order.objects.filter(user=request.user, ordered=False)
     if not_saved_order.exists():
         order = not_saved_order[0] #первый элемент потому, что возвращает список
@@ -30,13 +31,17 @@ def add_to_cart(request, pk):
             messages.success(request, "Good was added to your cart")
             return redirect('goods:all')
 
-        else:          
+        else:
+            order_good.quantity = 1
+            order_good.save()   
             order.goods.add(order_good)
             messages.success(request, "Good was added to your cart")
             return redirect('goods:all')
 
     else:
         order = Order.objects.create(user=request.user)
+        order_good.quantity = 1
+        order_good.save()
         order.goods.add(order_good)
         messages.success(request, "Good was added to your cart")
         return redirect('goods:all')
@@ -116,18 +121,19 @@ class OrderSummary(LoginRequiredMixin, generic.View):
 @login_required
 def checkout(request):
     order = Order.objects.get(user=request.user, ordered=False)
-    user = request.user
     if request.method == 'POST':
-        form = CheckoutForm(request.POST, user=request.user)
+        form = CheckoutForm(request.POST)
         if form.is_valid():
             order.phone = form.cleaned_data['phone']
             order.email = form.cleaned_data['email']
+
             order.delivery_options = form.cleaned_data['delivery_options']
-            if order.delivery_options == 'Courier':
+            if order.delivery_options == 'C':
                 order.address = form.cleaned_data['address']
+                order.pickup_point = None
             else:
                 order.pickup_point = form.cleaned_data['pickup_point']
-            
+
             order.place_order()
             order.save()
             
@@ -135,14 +141,18 @@ def checkout(request):
                 'Order ' + str(order.id) +' is placed',
                 'Yeap, it is',
                 '',
-                [order.email, ], 
+                [order.email, 'varenik_geo@mail.ru', ], 
                 fail_silently=False
             )
-
+            
             return redirect('orders:order_detail', pk=order.pk)
+
+        else:
+            return HttpResponse('Что-то не так с формой')
+
     else:
         form = CheckoutForm()
-    return render(request, 'orders/checkout.html', {'object':order, 'form':form, 'user':user})
+    return render(request, 'orders/checkout.html', {'object':order, 'form':form})
 
 
 class OrderDetail(LoginRequiredMixin, generic.DetailView):

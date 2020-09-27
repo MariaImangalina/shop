@@ -30,7 +30,9 @@
 <div class='jumbotron'>
     <h2>Delivery info</h2>
     <ul>
-        <li>{{ order.address }}</li>
+        <li>Delivery type: {{ order.delivery_options }}</li>
+        <li>Address: {{ order.address }}</li>
+        <li>{{ order.pickup_point }}</li>
         <li>{{ order.phone }}</li>
         <li>{{ order.email }}</li>
     </ul>
