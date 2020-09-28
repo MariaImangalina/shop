@@ -12,6 +12,7 @@
             </div>
             {% if user.is_staff %}
             <a class='btn btn-outline-primary' href="{% url 'goods:update' pk=good.pk %}">Update</a>
+            <a class='btn btn-outline-primary' href="{% url 'goods:remove' pk=good.pk %}">Delete</a>
             {% endif %}
             <a href="#" class="btn btn-primary">Buy</a>
 </div>
