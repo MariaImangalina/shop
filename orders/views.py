@@ -115,8 +115,8 @@ class OrderSummary(LoginRequiredMixin, generic.View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             return render(request, 'orders/summary.html', {'object':order})
         except ObjectDoesNotExist:
-            return HttpResponse('Вы пока ничего не выбрали')
-            #сделать нормальную страницу
+            messages.info(request, "You don't have an active order")
+            return redirect('goods:all')
 
 @login_required
 def checkout(request):

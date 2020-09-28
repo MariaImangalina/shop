@@ -25,7 +25,8 @@ urlpatterns = [
     path('', views.HomePage.as_view(), name='homepage'),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('goods/', include('goods.urls', namespace='goods')),
-    path('orders/', include('orders.urls', namespace='orders')),    
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('delivery_info/', views.DeliveryInfoPage.as_view(), name='delivery_info'),    
 ]
 
 if settings.DEBUG:
