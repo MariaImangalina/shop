@@ -56,8 +56,11 @@ class Order(models.Model):
     def get_absolute_url(self):
         return reverse('orders:detail', kwargs={'pk':self.pk})
 
+
     def get_total(self):
-        total = 0
+        total = 100
+        if self.delivery_options == 'Courier':
+            total += 300
         for good in self.goods.all():
             total += good.get_amount()
         return total

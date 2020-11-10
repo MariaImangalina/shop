@@ -29,7 +29,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media/')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -142,9 +142,11 @@ MEDIA_ROOT = MEDIA_DIR
 
 #______________EMAIL_____________________
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = '1023'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_TLS = False
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_USE_SSL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

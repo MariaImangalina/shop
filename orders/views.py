@@ -131,8 +131,10 @@ def checkout(request):
             if order.delivery_options == 'C':
                 order.address = form.cleaned_data['address']
                 order.pickup_point = None
+
             else:
                 order.pickup_point = form.cleaned_data['pickup_point']
+
 
             order.place_order()
             order.save()
