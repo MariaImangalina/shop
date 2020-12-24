@@ -24,7 +24,7 @@
                 Hello, {{ user.username }}!
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="{% url 'accounts:userpage' pk=user.pk %}">Profile</a>
                     <a class="dropdown-item" href="{% url 'orders:all' %}">Orders</a>
                     <a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a>
                 </div>

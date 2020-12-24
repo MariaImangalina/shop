@@ -12,4 +12,5 @@ class Signup(CreateView):
 
 class UserPage(DetailView):
     model = get_user_model()
+    template_name = 'accounts/user_detail.html'
 

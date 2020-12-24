@@ -118,6 +118,7 @@ class OrderSummary(LoginRequiredMixin, generic.View):
             messages.info(request, "You don't have an active order")
             return redirect('goods:all')
 
+
 @login_required
 def checkout(request):
     order = Order.objects.get(user=request.user, ordered=False)
